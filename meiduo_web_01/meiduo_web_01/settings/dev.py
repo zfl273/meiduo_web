@@ -156,10 +156,10 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,  # 是否禁用已经存在的日志器
     'formatters': {  # 日志信息显示的格式
-        'verbose': {
+        'verbose': { #详细格式
             'format': '%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s'
         },
-        'simple': {
+        'simple': { # 简单样式
             'format': '%(levelname)s %(module)s %(lineno)d %(message)s'
         },
     },
@@ -184,7 +184,7 @@ LOGGING = {
             'formatter': 'verbose'
         },
     },
-    'loggers': {  # 日志器
+    'loggers': {  # 一个日志器
         'django': {  # 定义了一个名为django的日志器
             'handlers': ['console', 'file'],  # 可以同时向终端与文件中输出日志
             'propagate': True,  # 是否继续传递日志信息

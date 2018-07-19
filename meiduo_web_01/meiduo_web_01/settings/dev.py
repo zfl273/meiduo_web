@@ -31,19 +31,23 @@ ALLOWED_HOSTS = []
 # Application definition
 # 添加导包路径
 import sys
+for i in sys.path:
+    print(i)
+# print(sys.path)
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth',# 用户认证系统
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',  # DRF
+
     # 为了还能像如下方式简便的注册引用，我们需要向Python解释器的导包路径中添加apps应用目录的路径
-    # 'users.apps.UsersConfig',
+    'users.apps.UsersConfig',
     # 如果创建一个应用，比如users，那么在配置文件的INSTALLED_APPS中注册应用应该如下：
     # 'meiduo_web_01.apps.users.apps.UsersConfig',
-    'rest_framework', #DRF
 ]
 
 MIDDLEWARE = [
@@ -192,3 +196,12 @@ LOGGING = {
         },
     }
 }
+# DRF异常配置
+REST_FRAMEWORK = {
+    # 异常处理
+    'EXCEPTION_HANDLER': 'meiduo_web_01.utils.exceptions.exception_handler',
+}
+
+# 配置文件中进行设置User模型类 指定User模型类为Django项目中的用户认证的系统中的模型类
+# AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'

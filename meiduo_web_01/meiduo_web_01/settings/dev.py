@@ -25,8 +25,11 @@ SECRET_KEY = '-!jlj-jy96xzzvcoe6q2v5gio)xgd!=#grssdzu=o2o!b$@hur'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# ALLOWED_HOSTS = [] 增加可以访问后端的域名
+ALLOWED_HOSTS = ['api.meiduo.site',
+                 'www.meiduo.site',
+                 '127.0.0.1',
+                 'localhost', ]
 
 # Application definition
 # 添加导包路径

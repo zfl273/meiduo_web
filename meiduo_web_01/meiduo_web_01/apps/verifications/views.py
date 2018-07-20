@@ -9,6 +9,7 @@ from . import constants
 from rest_framework.views import APIView
 from . import serializers
 from meiduo_web_01.libs.yuntongxun.sms import CCP
+from celery_tasks.sms.tasks import send_sms_code
 
 import random
 from rest_framework.response import Response
@@ -58,8 +59,11 @@ class SMSCodeView(GenericAPIView): # 可以是APIview 或者 View
         # 生成随机短信验证码,6位
         sms_code = '%06d' % random.randint(0, 999999)
         logger.info('短信验证码：%s' % sms_code) # 短信验证码
-        # 发送短信验证码，    ccp.send_template_sms('18949599846', ['1234', 5], 1)
-        CCP().send_template_sms(mobile, [sms_code, constants.SMS_CODE_REDIS_EXPIRED//60], 1)
+        # 发送短信验证码ccp.send_template_sms('18949599846', ['1234', 5], 1)
+        # CCP().send_template_sms(mobile, [sms_code, constants.SMS_CODE_REDIS_EXPIRED//60], 1)
+        # 异步发送短信需要:delay->将延时任务添加到队列并触发异步任务
+        # 如果不调用delay任务也能完成，只是不会info打印出来
+        send_sms_code.delay(mobile, sms_code)
 
         # 存储短信验证d码
         redis_conn = get_redis_connection('verify_codes')

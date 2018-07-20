@@ -30,6 +30,13 @@ ALLOWED_HOSTS = ['api.meiduo.site',
                  'www.meiduo.site',
                  '127.0.0.1',
                  'localhost', ]
+# 补充白名单 跨越白名单
+CORS_ORIGIN_WHITELIST = ['api.meiduo.site:8000',
+                         'www.meiduo.site:8080',
+                         '127.0.0.1:8080',
+                         'localhost:8080', ]
+# 跨越请求允许携带cookie
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 # 添加导包路径
@@ -51,9 +58,12 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     # 如果创建一个应用，比如users，那么在配置文件的INSTALLED_APPS中注册应用应该如下：
     # 'meiduo_web_01.apps.users.apps.UsersConfig',
+    'corsheaders', # 解决js跨域请求的插件
 ]
 
+# 中间件，请求自上而下，返回自下而上。
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # 最外层的请求解决跨域问题
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

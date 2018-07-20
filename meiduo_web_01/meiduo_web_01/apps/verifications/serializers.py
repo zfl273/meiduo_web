@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from django_redis import get_redis_connection
+from redis import RedisError
+import logging
+logger = logging.getLogger('django')
 
 
 # 定义序列化器，用来验证
@@ -13,7 +16,6 @@ class ImageCodeCheckSerializer(serializers.Serializer):
     # serializer不是只能为数据库模型类定义，也可以为非数据库模型类的数据定义。
     # serializer是独立于数据库之外的存在
 
-
     def validate(self, attrs):
         '''校验'''
 
@@ -25,6 +27,11 @@ class ImageCodeCheckSerializer(serializers.Serializer):
         redis_conn = get_redis_connection('verify_codes')
         # 获取redis中存储的图片验证码
         image_code_server = redis_conn.get('img_%s' % image_code_id)
+        # 立即删除数据库中的图片验证码,不能阻塞程序
+        try:
+            redis_conn.delete('img_%s' % image_code_id)
+        except RedisError as e:
+            logger.error(e)
 
         if image_code_server is None:
             raise serializers.ValidationError('验证码已经过期')

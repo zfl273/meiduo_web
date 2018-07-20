@@ -1,6 +1,7 @@
 var vm = new Vue({
 	el: '#app',
 	data: {
+		host:host,
 		error_name: false,
 		error_password: false,
 		error_check_password: false,
@@ -44,7 +45,9 @@ var vm = new Vue({
 		// 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
 		generate_image_code:function(){
 			this.image_code_id = this.generate_uuid();//生成一个uuid
-			this.image_code_url = 'http://127.0.0.1:8000'+"/image_codes/"+this.image_code_id+'/';
+			//this.image_code_url = 'http://127.0.0.1:8000'+"/image_codes/"+this.image_code_id+'/';
+			this.image_code_url = this.host+"/image_codes/"+this.image_code_id+'/';
+
 		},
 		check_username: function (){
 			var len = this.username.length;
@@ -114,7 +117,7 @@ var vm = new Vue({
 			}
 			// 向后端接口发送请求，让后端发送短信验证码
 			// 访问方式： GET /sms_codes/(?P<mobile>1[3-9]\d{9})/?image_code_id=xxx&text=xxx
-			 axios.get('http://127.0.0.1:8000' + '/sms_codes/' + this.mobile + '/?text=' + this.image_code+'&image_code_id='+ this.image_code_id, {
+			 axios.get(this.host + '/sms_codes/' + this.mobile + '/?text=' + this.image_code+'&image_code_id='+ this.image_code_id, {
                     responseType: 'json'
                 })
                 .then(response => {

@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['api.meiduo.site',
                  'www.meiduo.site',
                  '127.0.0.1',
                  'localhost', ]
-# 补充白名单 跨越白名单
+# 补充白名单 跨越白名单 域名
 CORS_ORIGIN_WHITELIST = ['api.meiduo.site:8000',
                          'www.meiduo.site:8080',
                          '127.0.0.1:8080',

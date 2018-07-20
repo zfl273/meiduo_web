@@ -12,6 +12,8 @@ class ImageCodeCheckSerializer(serializers.Serializer):
     text = serializers.CharField(max_length=4, min_length=4)
     # serializer不是只能为数据库模型类定义，也可以为非数据库模型类的数据定义。
     # serializer是独立于数据库之外的存在
+
+
     def validate(self, attrs):
         '''校验'''
 
@@ -21,10 +23,15 @@ class ImageCodeCheckSerializer(serializers.Serializer):
 
         # 获取连接到redis的对象
         redis_conn = get_redis_connection('verify_codes')
-
         # 获取redis中存储的图片验证码
         image_code_server = redis_conn.get('img_%s' % image_code_id)
 
+        if image_code_server is None:
+            raise serializers.ValidationError('验证码已经过期')
+        # image_code_server = image_code_server.decode()
+        if text.lower() != image_code_server.decode().lower():
+            raise serializers.ValidationError('图片验证码输入有误')
+        return attrs
 
 
 

@@ -4,6 +4,17 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import User
 from rest_framework.response import Response
+from rest_framework.generics import CreateAPIView
+from .serializers import CreateUserSerializer
+
+class UserView(CreateAPIView):
+    '''注册'''
+
+    #新增
+    serializer_class = CreateUserSerializer
+
+
+
 
 # url(r'^mobiles/(?P<mobile>1[3-9]\d{9})/count/$', views.MobileCountView.as_view()),
 class MobileCountView(APIView):

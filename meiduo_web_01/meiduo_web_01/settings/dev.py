@@ -234,6 +234,11 @@ JWT_AUTH = { # 配置json web token的有效期，状态保持，不宜太久
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.jwt_response_payload_handler',
 }
 
+#指定django是被指定用户身份验证的类
+AUTHENTICATION_BACKENDS = [
+    'users.utils.UsernameMobileAuthBackend',
+]
+
 # 配置文件中进行设置User模型类 指定User模型类为Django项目中的用户认证的系统中的模型类
 # AUTH_USER_MODEL = 'users.User'
 AUTH_USER_MODEL = 'users.User'

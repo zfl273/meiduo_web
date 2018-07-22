@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -220,6 +221,15 @@ LOGGING = {
 REST_FRAMEWORK = {
     # 异常处理
     'EXCEPTION_HANDLER': 'meiduo_web_01.utils.exceptions.exception_handler',
+    # drf认证 jwt
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',# 默认认证
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+JWT_AUTH = { # 配置json web token的有效期，状态保持，不宜太久
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),# 格林威治时间
 }
 
 # 配置文件中进行设置User模型类 指定User模型类为Django项目中的用户认证的系统中的模型类

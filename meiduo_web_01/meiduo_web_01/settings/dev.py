@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     # 如果创建一个应用，比如users，那么在配置文件的INSTALLED_APPS中注册应用应该如下：
     # 'meiduo_web_01.apps.users.apps.UsersConfig',
     'corsheaders', # 解决js跨域请求的插件
+    'oauth.apps.OauthConfig', # 第三方登录
 ]
 
 # 中间件，请求自上而下，返回自下而上。

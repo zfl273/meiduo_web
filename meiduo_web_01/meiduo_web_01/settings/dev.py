@@ -230,6 +230,8 @@ REST_FRAMEWORK = {
 }
 JWT_AUTH = { # 配置json web token的有效期，状态保持，不宜太久
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),# 格林威治时间
+    # 为JWT登录视图补充返回值
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.jwt_response_payload_handler',
 }
 
 # 配置文件中进行设置User模型类 指定User模型类为Django项目中的用户认证的系统中的模型类

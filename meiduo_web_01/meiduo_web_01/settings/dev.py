@@ -14,15 +14,18 @@ import os
 import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# 根路径
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+print('根路由是:%s' % BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# django默认生成的秘钥，项目中有些功能需要签名计算，可以直接使用，不用自己创建
 SECRET_KEY = '-!jlj-jy96xzzvcoe6q2v5gio)xgd!=#grssdzu=o2o!b$@hur'
 
+# 默认开启调试，打印两次的原因 上线改为false
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -39,13 +42,15 @@ CORS_ORIGIN_WHITELIST = ['api.meiduo.site:8000',
 # 跨越请求允许携带cookie
 CORS_ALLOW_CREDENTIALS = True
 
-# Application definition
 # 添加导包路径
 import sys
 for i in sys.path:
     print(i)
 # print(sys.path)
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+
+#注册安装的应用，自己创建的子应用，第三方扩展的应用
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',# 用户认证系统
@@ -74,9 +79,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+# 路由配置，路由的入口
 ROOT_URLCONF = 'meiduo_web_01.urls'
-
+# 模版文件配置项
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -93,12 +98,13 @@ TEMPLATES = [
     },
 ]
 
+# 将来部署上线后，程序的wsgi协议的入口
 WSGI_APPLICATION = 'meiduo_web_01.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
+# 连接数据库的选项
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -114,6 +120,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
+# 验证密码的规则
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -132,10 +139,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
-
 # LANGUAGE_CODE = 'en-us' #默认语言
 LANGUAGE_CODE = 'zh-hans'
-# TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC' # 时间 时区
 TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
@@ -147,8 +153,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-STATIC_URL = '/static/'
+# 配置静态文件的路由前缀 相当于flask的static_url_path = None
+STATIC_URL = '/static/'# 访问静态文件的URL前缀
+# 当DEBUG=False工作在生产模式时，Django不再对外提供静态文件，
+# 需要是用collectstatic命令来收集静态文件并交由其他静态文件服务器来提供。
+# 将静态文件存放在一个静态的服务器nginx
+# STATICFILES_DIRS = [ # 存放查找静态文件的目录，可以多个地方存放
+#     os.path.join(BASE_DIR, 'static_files')
+# ]
 
 # 安装django-redis，配置
 CACHES = {

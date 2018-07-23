@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^', include('verifications.urls')),
     # 添加users的url
     url(r'^', include('users.urls')),
+    # 添加oauth的url
+    url(r'^', include('oauth.urls')),
 ]

@@ -7,6 +7,8 @@ logger = logging.getLogger('django')
 import json
 
 from .exceptions import QQAPIException
+from . import constants
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 class OAuthQQ(object):
     '''工具类'''
@@ -82,3 +84,9 @@ class OAuthQQ(object):
             raise QQAPIException('code=%s msg=%s'%(err_data.get('code'), err_data.get('msg')))
 
         return open_id
+
+    @staticmethod
+    def generate_save_user_token(openid):
+        '''生成保护的token'''
+
+        serializer = Serializer(settings.SECRET_KEY, expires_in=constants.SAVE_QQ_USER_TOKEN_EXPIRES)

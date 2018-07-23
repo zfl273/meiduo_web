@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f55dd6f6-e1d4-4a1b-a52d-2126a7116c6f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/constants.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/serializers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/utils.py" afterPath="$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/utils.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,8 +45,20 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="3" column="26" lean-forward="false" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+            <state relative-caret-position="368">
+              <caret line="47" column="14" lean-forward="true" selection-start-line="47" selection-start-column="14" selection-end-line="47" selection-end-column="14" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/serializers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="46">
+              <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -58,16 +69,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="oauth_callback.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/front_end_pc/js/oauth_callback.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="25" column="6" lean-forward="true" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -199,6 +200,7 @@
         <option value="$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/exceptions.py" />
         <option value="$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/utils.py" />
         <option value="$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/constants.py" />
+        <option value="$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/serializers.py" />
         <option value="$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/views.py" />
       </list>
     </option>
@@ -216,8 +218,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="404" />
-    <option name="y" value="47" />
+    <option name="x" value="702" />
+    <option name="y" value="72" />
     <option name="width" value="1077" />
     <option name="height" value="927" />
   </component>
@@ -822,11 +824,18 @@
       <option name="project" value="LOCAL" />
       <updated>1532315162375</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="QQ登录之逻辑处理">
+      <created>1532316292285</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1532316292285</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="404" y="47" width="1077" height="927" extended-state="0" />
+    <frame x="702" y="72" width="1077" height="927" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17294686" sideWeight="0.7237937" order="0" side_tool="false" content_ui="combo" />
@@ -900,7 +909,8 @@
     <MESSAGE value="QQ登录之获取access_token" />
     <MESSAGE value="QQ登录之获取open_id" />
     <MESSAGE value="QQ登录之获取open_id已绑定" />
-    <option name="LAST_COMMIT_MESSAGE" value="QQ登录之获取open_id已绑定" />
+    <MESSAGE value="QQ登录之逻辑处理" />
+    <option name="LAST_COMMIT_MESSAGE" value="QQ登录之逻辑处理" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -911,18 +921,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/users/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/users/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1327,11 +1330,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/meiduo_web_01/meiduo_web_01/apps/oauth/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="3" column="26" lean-forward="false" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
-          <folding />
+        <state relative-caret-position="368">
+          <caret line="47" column="14" lean-forward="true" selection-start-line="47" selection-start-column="14" selection-end-line="47" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

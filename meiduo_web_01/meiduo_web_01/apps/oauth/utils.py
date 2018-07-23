@@ -1,6 +1,7 @@
 
-from urllib.parse import urlencode
+from urllib.parse import urlencode, parse_qs
 from django.conf import settings
+from urllib.request import urlopen
 
 class OAuthQQ(object):
     '''工具类'''
@@ -34,4 +35,22 @@ class OAuthQQ(object):
 
         return login_url
 
+    def get_access_token(self, code):
+        '''使用code获取access——token'''
+        # url = https://graph.qq.com/oauth2.0/token?
+        url = 'https://graph.qq.com/oauth2.0/token?'
+        params = {
+            'grant_type': 'authorization_code',
+            'client_id': self.client_id,
+            'client_secret': self.client_secret,
+            'redirect_uri': self.redirect_uri,
+            'code': code,
+        }
 
+        url += urlencode(params)
+        # 发送请求
+        response_str = urlopen(url).read().decode()
+        response_dict = parse_qs(response_str)# 将查询字符串转成字典
+
+        access_token = response_dict.get('access_token')[0]
+        return access_token

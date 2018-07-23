@@ -255,3 +255,9 @@ AUTHENTICATION_BACKENDS = [
 # 配置文件中进行设置User模型类 指定User模型类为Django项目中的用户认证的系统中的模型类
 # AUTH_USER_MODEL = 'users.User'
 AUTH_USER_MODEL = 'users.User'
+
+# QQ登录参数
+QQ_CLIENT_ID = '101474184'
+QQ_CLIENT_SECRET = 'c6ce949e04e12ecc909ae6a8b09b637c'
+QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'
+QQ_STATE = '/'

@@ -8,7 +8,8 @@ import json
 
 from .exceptions import QQAPIException
 from . import constants
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadData
+
 
 class OAuthQQ(object):
     '''工具类'''
@@ -90,3 +91,17 @@ class OAuthQQ(object):
         '''生成保护的token'''
 
         serializer = Serializer(settings.SECRET_KEY, expires_in=constants.SAVE_QQ_USER_TOKEN_EXPIRES)
+        data = {'openid': openid}
+        token = serializer.dumps(data)
+        return token.decode()
+
+    @staticmethod
+    def check_save_user_token(token):
+        '''检验保存用户数据的token'''
+        serializer = Serializer(settings.SECRET_KEY, expires_in=constants.SAVE_QQ_USER_TOKEN_EXPIRES)
+        try:
+            data = serializer.loads(token)
+        except BadData:
+            return None
+        else:
+            return data.get('openid')

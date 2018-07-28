@@ -11,12 +11,13 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import sys
 import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # 根路径
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print('根路由是:%s' % BASE_DIR)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # cd ../../dev
+print('settings中dev根路由是:BASE_DIR----->%s' % BASE_DIR)  # BASE_DIR 为里面的 meiduo_web_01
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -34,38 +35,44 @@ ALLOWED_HOSTS = ['api.meiduo.site',
                  'www.meiduo.site',
                  '127.0.0.1',
                  'localhost', ]
+
 # 补充白名单 跨越白名单 域名
 CORS_ORIGIN_WHITELIST = ['api.meiduo.site:8000',
                          'www.meiduo.site:8080',
                          '127.0.0.1:8080',
                          'localhost:8080', ]
+
 # 跨越请求允许携带cookie
 CORS_ALLOW_CREDENTIALS = True
 
 # 添加导包路径
-import sys
-for i in sys.path:
-    print(i)
-# print(sys.path)
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+for i in sys.path:
+    print('导包路径有：------>%s' % i)
+# print(sys.path)
 
-#注册安装的应用，自己创建的子应用，第三方扩展的应用
+# 注册安装的应用，自己创建的子应用，第三方扩展的应用
 # Application definition
 INSTALLED_APPS = [
+    # 1 系统自带
     'django.contrib.admin',
-    'django.contrib.auth',# 用户认证系统
+    'django.contrib.auth',  # 用户认证系统
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',  # DRF
 
+    # 2 扩展应用
+    'rest_framework',  # DRF
+    'corsheaders',  # 解决js跨域请求的插件
+
+    # 3 自己创建的应用
     # 为了还能像如下方式简便的注册引用，我们需要向Python解释器的导包路径中添加apps应用目录的路径
     'users.apps.UsersConfig',
     # 如果创建一个应用，比如users，那么在配置文件的INSTALLED_APPS中注册应用应该如下：
     # 'meiduo_web_01.apps.users.apps.UsersConfig',
-    'corsheaders', # 解决js跨域请求的插件
-    'oauth.apps.OauthConfig', # 第三方登录
+
+    'oauth.apps.OauthConfig',  # 第三方登录
 ]
 
 # 中间件，请求自上而下，返回自下而上。
@@ -79,8 +86,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 # 路由配置，路由的入口
 ROOT_URLCONF = 'meiduo_web_01.urls'
+
 # 模版文件配置项
 TEMPLATES = [
     {
@@ -162,23 +171,23 @@ STATIC_URL = '/static/'# 访问静态文件的URL前缀
 #     os.path.join(BASE_DIR, 'static_files')
 # ]
 
-# 安装django-redis，配置
+# 安装django-redis，配置， caches：<电脑>快速缓冲贮存区
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/0",
+        "BACKEND": "django_redis.cache.RedisCache",  # backend 后端; 后台; 后段; 编译器后端;
+        "LOCATION": "redis://127.0.0.1:6379/0",  # 位置：redis://ip:port/0号数据库
         "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",  # 客户端_类
         }
     },
-    "session": {
+    "session": {  # 修改了Django的Session机制使用redis保存，且使用名为'session'的redis配置。此处修改Django的Session机制存储主要是为了给Admin站点使用
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
-    "verify_codes": {
+    "verify_codes": {  # 'default' "session" "verify_codes" 别名
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379/2',
         'OPTION': {
@@ -186,18 +195,19 @@ CACHES = {
         }
     },
 }
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "session"
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # session 引擎
+SESSION_CACHE_ALIAS = "session"  # alias:别名，化名;
+
 
 # 日志配置
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,  # 是否禁用已经存在的日志器
     'formatters': {  # 日志信息显示的格式
-        'verbose': { #详细格式
+        'verbose': {  # 详细格式
             'format': '%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s'
         },
-        'simple': { # 简单样式
+        'simple': {  # 简单样式
             'format': '%(levelname)s %(module)s %(lineno)d %(message)s'
         },
     },
@@ -230,7 +240,7 @@ LOGGING = {
         },
     }
 }
-# DRF异常配置
+# DRF所有配置
 REST_FRAMEWORK = {
     # 异常处理
     'EXCEPTION_HANDLER': 'meiduo_web_01.utils.exceptions.exception_handler',
@@ -253,7 +263,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # 配置文件中进行设置User模型类 指定User模型类为Django项目中的用户认证的系统中的模型类
-# AUTH_USER_MODEL = 'users.User'
+# AUTH_USER_MODEL = 'users.User' AUTH_USER_MODEL 参数的设置以点.来分隔，表示应用名.模型类名。
+# 注意：Django建议我们对于AUTH_USER_MODEL参数的设置一定要在第一次数据库迁移之前就设置好，否则后续使用可能出现未知错误。
 AUTH_USER_MODEL = 'users.User'
 
 # QQ登录参数

@@ -1,7 +1,9 @@
+import logging
+
 from rest_framework import serializers
 from django_redis import get_redis_connection
 from redis import RedisError
-import logging
+
 logger = logging.getLogger('django')
 
 

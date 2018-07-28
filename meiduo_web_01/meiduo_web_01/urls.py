@@ -20,8 +20,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # 添加apps里的verifications
     url(r'^', include('verifications.urls')),
+
     # 添加users的url
     url(r'^', include('users.urls')),
+
     # 添加oauth的url
     url(r'^oauth/', include('oauth.urls')),
 ]

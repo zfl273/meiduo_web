@@ -2,10 +2,11 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework.views import APIView
-from .models import User
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView
+
 from .serializers import CreateUserSerializer
+from .models import User
 
 class UserView(CreateAPIView):
     '''注册'''

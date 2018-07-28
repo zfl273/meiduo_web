@@ -1,45 +1,58 @@
 from django.shortcuts import render
+import random
+import logging
 from django.http import HttpResponse
-# from rest_framework.generics import GenericAPIView
-from rest_framework.generics import GenericAPIView
 
+from rest_framework.generics import GenericAPIView
 from meiduo_web_01.libs.captcha.captcha import captcha
-from django_redis import get_redis_connection # 获取redis连接对象
-from . import constants
+from django_redis import get_redis_connection  # 获取redis连接对象
 from rest_framework.views import APIView
-from . import serializers
+from rest_framework.response import Response
 from meiduo_web_01.libs.yuntongxun.sms import CCP
+
+from . import constants
+from . import serializers
 from celery_tasks.sms.tasks import send_sms_code
 
-import random
-from rest_framework.response import Response
-# 创建一个日志输出器
-import logging
-# 记录日志
+
+# 创建一个日志输出器# 记录日志
 logger = logging.getLogger('django')
 
 # Create your views here.
 
-
+# 第一个接口设计 图片验证码和图片的接口
 class ImageCodeView(APIView):
     '''
     图片验证码
     # url(r'^image_codes/(?P<image_code_id>[\w-]+)/$', views.ImageCodeView.as_view()),
 
     '''
-    def get(self, request,image_code_id):
+    def get(self, request, image_code_id):
         # 生成图片验证码的内容和图片
         text, image = captcha.generate_captcha()
-        logger.info('图片验证码:%s'% text)# 打印图片验证码
+        logger.info('图片验证码:%s' % text)  # 打印图片验证码
+
+        # django-redis提供了get_redis_connection的方法，
+        # 通过调用get_redis_connection方法传递redis的配置名称可获取到redis的连接对象，
+        # 通过redis连接对象可以执行redis命令。
         # 将图片验证码的内容存储到redis数据库的2号库
         redis_conn = get_redis_connection('verify_codes')
+        # 图片验证码保存到redis-verify
         redis_conn.set('img_%s'% image_code_id, text, constants.IMAGE_CODE_REDIS_EXPIRES)
         # 将图片响应给用户
-        return HttpResponse(image, content_type='image/jpg')
+        return HttpResponse(image, content_type='images/jpg')
 
 
-# 访问方式： GET /sms_codes/(?P<mobile>1[3-9]\d{9})/?image_code_id=xxx&text=xxx
-class SMSCodeView(GenericAPIView): # 可以是APIview 或者 View
+# 第二个接口设计 发送短信验证码的接口
+# 请求方式： GET
+# 请求路径： /sms_codes/(?P<mobile>1[3-9]\d{9})/?image_code_id=xxx&text=xxx
+# 请求参数： 路径参数与查询字符串参数 1： 手机号mobile 2：图片验证码 3 图片uuid
+# 参数	         类型	      是否必须	    说明
+# mobile	     str	       是	         手机号
+# image_code_id	uuid 字符串	   是	         图片验证码编号
+# text	         str	       是	         用户输入的图片验证码
+# 返回数据：json格式 message	str	否	OK，发送成功
+class SMSCodeView(GenericAPIView):
     '''
     get 发送短信验证码视图
     url(r'^sms_codes/(?P<mobile>1[3-9]\d{9})/$', views.SMSCodeView.as_view())
@@ -58,7 +71,7 @@ class SMSCodeView(GenericAPIView): # 可以是APIview 或者 View
 
         # 生成随机短信验证码,6位
         sms_code = '%06d' % random.randint(0, 999999)
-        logger.info('短信验证码：%s' % sms_code) # 短信验证码
+        logger.info('短信验证码：%s' % sms_code)  # 短信验证码
         # 发送短信验证码ccp.send_template_sms('18949599846', ['1234', 5], 1)
         # CCP().send_template_sms(mobile, [sms_code, constants.SMS_CODE_REDIS_EXPIRED//60], 1)
         # 异步发送短信需要:delay->将延时任务添加到队列并触发异步任务

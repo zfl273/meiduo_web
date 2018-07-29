@@ -282,4 +282,4 @@ EMAIL_HOST_USER = 'zhfeilong2008@163.com' # 授权的邮箱 #发送邮件的邮�
 # 在邮箱中设置的客户端授权密码 非注册登录密码
 EMAIL_HOST_PASSWORD = 'python808'
 # 收件人看到的发件人
-EMAIL_FROM = '飞龙商城<zhfeilong@163.com>'
+EMAIL_FROM = '飞龙商城<zhfeilong2008@163.com>'

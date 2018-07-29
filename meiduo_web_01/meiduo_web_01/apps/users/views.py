@@ -8,13 +8,11 @@ from rest_framework.generics import CreateAPIView
 from .serializers import CreateUserSerializer
 from .models import User
 
+# 第五个接口注册的视图
 class UserView(CreateAPIView):
     '''注册'''
-
-    #新增
+    # 新增
     serializer_class = CreateUserSerializer
-
-
 
 
 # url(r'^mobiles/(?P<mobile>1[3-9]\d{9})/count/$', views.MobileCountView.as_view()),
@@ -35,6 +33,8 @@ class MobileCountView(APIView):
 
         return Response(data)
 
+
+# 第三个接口，判断用户名是否存在
 # url(r'^usernames/(?P<username>\w{5,20})/count/$', views.UsernameCountView.as_view()),
 class UsernameCountView(APIView):
     """

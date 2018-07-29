@@ -36,13 +36,13 @@ ALLOWED_HOSTS = ['api.meiduo.site',
                  '127.0.0.1',
                  'localhost', ]
 
-# 补充白名单 跨越白名单 域名
+
+# 补充白名单 跨越白名单 域名 凡是出现在白名单中的域名，都可以访问后端接口
 CORS_ORIGIN_WHITELIST = ['api.meiduo.site:8000',
                          'www.meiduo.site:8080',
                          '127.0.0.1:8080',
                          'localhost:8080', ]
-
-# 跨越请求允许携带cookie
+# 跨越请求允许携带cookie， CORS_ALLOW_CREDENTIALS 指明在跨域访问中，后端是否支持对cookie的操作
 CORS_ALLOW_CREDENTIALS = True
 
 # 添加导包路径
@@ -50,6 +50,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 for i in sys.path:
     print('导包路径有：------>%s' % i)
 # print(sys.path)
+
 
 # 注册安装的应用，自己创建的子应用，第三方扩展的应用
 # Application definition
@@ -194,6 +195,7 @@ CACHES = {
             "CLIENT_CLASS": 'django_redis.client.DefaultClient',
         }
     },
+    # redis://127.0.0.1/14 redis14号库用来存放celery异步任务，发送短信任务
 }
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # session 引擎
 SESSION_CACHE_ALIAS = "session"  # alias:别名，化名;
@@ -242,7 +244,7 @@ LOGGING = {
 }
 # DRF所有配置
 REST_FRAMEWORK = {
-    # 异常处理
+    # 异常处理 如果未声明，会采用默认的方式  'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
     'EXCEPTION_HANDLER': 'meiduo_web_01.utils.exceptions.exception_handler',
     # drf认证 jwt
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -251,13 +253,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
-JWT_AUTH = { # 配置json web token的有效期，状态保持，不宜太久
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),# 格林威治时间
-    # 为JWT登录视图补充返回值
+JWT_AUTH = {  # 配置json web token的有效期，状态保持，不宜太久
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),  # 格林威治时间
+    # 为JWT登录视图补充返回值 utils中
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.jwt_response_payload_handler',
 }
-
-#指定django是被指定用户身份验证的类
+# 指定django是被指定用户身份验证的类 utils中
 AUTHENTICATION_BACKENDS = [
     'users.utils.UsernameMobileAuthBackend',
 ]
@@ -267,7 +268,7 @@ AUTHENTICATION_BACKENDS = [
 # 注意：Django建议我们对于AUTH_USER_MODEL参数的设置一定要在第一次数据库迁移之前就设置好，否则后续使用可能出现未知错误。
 AUTH_USER_MODEL = 'users.User'
 
-# QQ登录参数
+# QQ登录参数 在配置文件中添加关于QQ登录的应用开发信息
 QQ_CLIENT_ID = '101474184'
 QQ_CLIENT_SECRET = 'c6ce949e04e12ecc909ae6a8b09b637c'
 QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'

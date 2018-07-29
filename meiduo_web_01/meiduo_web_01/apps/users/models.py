@@ -22,6 +22,8 @@ class User(AbstractUser):  # 我们自定义的用户模型类还不能直接被
     '''
     mobile = models.CharField(max_length=11, unique=True, verbose_name='手机号')
 
+    # 在用户列表里添加一个字段用来记录邮箱是否已经验证
+    email_active = models.BooleanField(default=False, verbose_name='邮箱验证状态')
     class Meta:
         db_table = 'tb_users'
         verbose_name = '用户'

@@ -1,4 +1,11 @@
+import re
 
+from django.contrib.auth.backends import ModelBackend
+
+from .models import User
+
+
+# 但是默认的返回值仅有token，我们还需在返回值中增加username和user_id。
 def jwt_response_payload_handler(token, user=None, request=None):
     """
     自定义jwt认证成功返回数据
@@ -9,9 +16,7 @@ def jwt_response_payload_handler(token, user=None, request=None):
         'username': user.username
     }
 
-from django.contrib.auth.backends import ModelBackend
-import re
-from .models import User
+
 
 def get_user_by_account(account):
     '''
@@ -34,6 +39,7 @@ def get_user_by_account(account):
 
 class UsernameMobileAuthBackend(ModelBackend):
     '''自定义用户认证方式'''
+
     def authenticate(self, request, username=None, password=None, **kwargs):
         '''
         重写用户认证的方法

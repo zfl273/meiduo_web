@@ -1,7 +1,8 @@
+import re
+
 from django_redis import get_redis_connection
 from rest_framework import serializers
 from .models import User
-import re
 from rest_framework_jwt.settings import api_settings
 
 
@@ -48,7 +49,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('手机号码格式错误')
         return value
 
-    def validate(self, value):
+    def validate_allow(self, value):
         '''校验用户是否同意协议'''
         if value != 'true':
             raise serializers.ValidationError('请同意用户协议')
@@ -86,9 +87,9 @@ class CreateUserSerializer(serializers.ModelSerializer):
         # 保存注册数据之后，响应注册结果之前
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER # 生成载he
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-
-        payload = jwt_payload_handler(user)#将user加入载体
-        token = jwt_encode_handler(payload) #
+        # user对象是当前的注册用户对象
+        payload = jwt_payload_handler(user)  # 将user加入载体
+        token = jwt_encode_handler(payload)  #
 
         # 将token一并响应出去
         user.token = token

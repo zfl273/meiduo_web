@@ -4,6 +4,7 @@ from . import constants
 from celery_tasks.sms.yuntongxun.sms import CCP
 
 
+# 使用装饰器将以下的任务装饰成异步任务
 @celery_app.task(name='send_sms_code')
 def send_sms_code(mobile, sms_code):
     '''发送短信验证码异步任务'''

@@ -18,10 +18,10 @@ def exception_handler(exc, context):
     :param context: 抛出异常的上下文
     :return: Response响应对象
     """
-    # 调用drf框架原生的异常处理方法
+    # 调用drf框架原生的异常处理方法 先调用REST framework默认的异常处理方法获得标准错误响应对象
     response = drf_exception_handler(exc, context)
 
-    if response is None:
+    if response is None:  # # 在此处补充自定义的异常处理
         view = context['view']
         if isinstance(exc, DatabaseError) or isinstance(exc, RedisError):  # DatabaseError ,RedisError分别为数据库错误基类
             # 数据库异常

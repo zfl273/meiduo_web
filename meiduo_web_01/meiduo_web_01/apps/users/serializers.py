@@ -8,7 +8,6 @@ from .models import User
 from celery_tasks.email.tasks import send_verify_email
 
 
-
 class EmailSerializer(serializers.ModelSerializer):
     '''更新邮箱'''
 

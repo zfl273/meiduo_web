@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadData
 from django.conf import settings
 
 from . import constants
@@ -44,3 +44,25 @@ class User(AbstractUser):  # 我们自定义的用户模型类还不能直接被
         verify_url = 'http://www.meiduo.site:8080/success_verify_email.html?token=' + token
         return verify_url
         # 在User模型类中定义验证token的方法
+
+    @staticmethod
+    def check_verify_email_token(token):
+        '''
+        解码token,读取出user_id, 查询出当前要认证的用户
+        :return: user
+        '''
+        serializer = Serializer(settings.SECRET_KEY, expires_in=constants.VERIFY_EMAIL_TOKEN_EXPIRES)
+        try:
+            # data == {'user_id':self.id, 'email':self.email}
+            data = serializer.loads(token)
+        except BadData:
+            return None
+        else:
+            user_id = data.get('user_id')
+            email = data.get('email')
+            try:
+                user = User.objects.get(id=user_id, email=email)
+            except User.DoesNotExist:
+                return None
+            else:
+                return user

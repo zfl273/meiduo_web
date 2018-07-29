@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
@@ -9,6 +10,43 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import CreateUserSerializer
 from .models import User
 from . import serializers
+
+
+class VerifyEmailView(APIView):
+    '''验证邮箱接口'''
+
+    # 由后端接口判断token的有效性 如果有效则改字段的email_active为True
+    def get(self, request):
+        # 获取token
+        token = request.query_params.get('token')
+        if token is None:
+            return Response({'message': '缺少token'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 读取出user_id, 查询出当前要认证的用户
+        user = User.check_verify_email_token(token)
+        if user is None:
+            return Response({'message': '无效token'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 将用户的email_active设置True
+        user.email_active = True
+        user.save()
+
+        # 响应结果
+        return Response({'message': 'OK'})
+        # def get(self, request):
+        #     token = request.query_params.get('token')
+        #     if token is None:
+        #         return Response({'message': '缺少token'}, status=status.HTTP_400_BAD_REQUEST)
+        #     # 如果有参数，需要读取参数
+        #     # 将用户的email——active设置为true
+        #     # 响应结果
+        #     user = User.check_verify_email_token(token)
+        #     if user is None:
+        #         return Response({'message': '无效的token'}, status=status.HTTP_400_BAD_REQUEST)
+        #     User.email_active = True
+        #     user.save()
+        #     return Response({'message': 'OK'})
+
 
 
 class EmailView(UpdateAPIView):

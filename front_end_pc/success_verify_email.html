@@ -42,7 +42,7 @@
             success: true
         },
         created: function () {
-            axios.get(this.host + '/emails/verification/' + document.location.search)
+            axios.get(this.host + '/emails/verification/' + document.location.search)// 自动获取url中的查询字符串
                 .then(response => {
                     this.success = true;
                 })

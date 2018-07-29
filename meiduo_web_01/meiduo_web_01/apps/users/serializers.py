@@ -2,8 +2,11 @@ import re
 
 from django_redis import get_redis_connection
 from rest_framework import serializers
-from .models import User
 from rest_framework_jwt.settings import api_settings
+
+from .models import User
+from celery_tasks.email.tasks import send_verify_email
+
 
 
 class EmailSerializer(serializers.ModelSerializer):
@@ -26,6 +29,13 @@ class EmailSerializer(serializers.ModelSerializer):
         '''
         instance.email = validated_data.get('email')
         instance.save()
+
+        # 生成激活连接 , 生成的方法写在模型类里面，方便调用用户id
+        verify_url = instance.generate_verify_email_url()
+
+        # 在保存之后，返回数据之前发送邮件
+        send_verify_email.delay(instance.email, verify_url)
+
         return instance
 
 

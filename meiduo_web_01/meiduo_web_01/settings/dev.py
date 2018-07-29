@@ -280,6 +280,6 @@ EMAIL_HOST = 'smtp.163.com'  # 发邮件主机
 EMAIL_PORT = 25  # 全世界默认邮件端口
 EMAIL_HOST_USER = 'zhfeilong2008@163.com' # 授权的邮箱 #发送邮件的邮箱
 # 在邮箱中设置的客户端授权密码 非注册登录密码
-EMAIL_HOST_PASSWORD = 'python808'
+EMAIL_HOST_PASSWORD = 'woaini2017'
 # 收件人看到的发件人
 EMAIL_FROM = '飞龙商城<zhfeilong2008@163.com>'

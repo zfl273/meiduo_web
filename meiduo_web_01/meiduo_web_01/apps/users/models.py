@@ -2,6 +2,11 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from django.conf import settings
+
+from . import constants
+
 
 # Django认证系统中提供了用户模型类User保存用户的数据，默认的User包含以下常见的基本字段：
 # 必选:username  password
@@ -24,11 +29,18 @@ class User(AbstractUser):  # 我们自定义的用户模型类还不能直接被
 
     # 在用户列表里添加一个字段用来记录邮箱是否已经验证
     email_active = models.BooleanField(default=False, verbose_name='邮箱验证状态')
+
     class Meta:
         db_table = 'tb_users'
         verbose_name = '用户'
         verbose_name_plural = verbose_name  # 复数形式为 用户
 
-
-
-
+    def generate_verify_email_url(self):
+        '''生成激活码'''
+        # 激活连接的有效期
+        serializer = Serializer(settings.SECRET_KEY, expires_in=constants.VERIFY_EMAIL_TOKEN_EXPIRES)
+        data = {'user_id': self.id, 'email': self.email}
+        token = serializer.dumps(data).decode()
+        verify_url = 'http://www.meiduo.site:8080/success_verify_email.html?token=' + token
+        return verify_url
+        # 在User模型类中定义验证token的方法

@@ -6,6 +6,37 @@ from .models import User
 from rest_framework_jwt.settings import api_settings
 
 
+class EmailSerializer(serializers.ModelSerializer):
+    '''更新邮箱'''
+
+    class Meta:
+        model = User
+        fields = ['id', 'email']
+        extra_kwargs = {
+            'email': {
+                'required': True
+            }
+        }
+
+    def update(self, instance, validated_data):
+        '''重写序列化器的更新数据方法
+        1 用于更新某些字段，put是全字段更新
+        2 在次发送邮件
+        3 user传入的模型对象 instance
+        '''
+        instance.email = validated_data.get('email')
+        instance.save()
+        return instance
+
+
+# 获取单一数据 用户信息的序列化器
+class UserDetailSerializer(serializers.ModelSerializer):
+    '''获取单一数据 用户信息的序列化器'''
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'mobile', 'email', 'email_active']
+
+
 class CreateUserSerializer(serializers.ModelSerializer):
     '''注册的校验序列化器'''
 

@@ -273,3 +273,13 @@ QQ_CLIENT_ID = '101474184'
 QQ_CLIENT_SECRET = 'c6ce949e04e12ecc909ae6a8b09b637c'
 QQ_REDIRECT_URI = 'http://www.meiduo.site:8080/oauth_callback.html'
 QQ_STATE = '/'
+
+# 配置邮箱服务器 Django send_mall()
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # 导入邮件模块
+EMAIL_HOST = 'smtp.163.com'  # 发邮件主机
+EMAIL_PORT = 25  # 全世界默认邮件端口
+EMAIL_HOST_USER = 'zhfeilong2008@163.com' # 授权的邮箱 #发送邮件的邮箱
+# 在邮箱中设置的客户端授权密码 非注册登录密码
+EMAIL_HOST_PASSWORD = 'python808'
+# 收件人看到的发件人
+EMAIL_FROM = '飞龙商城<zhfeilong@163.com>'

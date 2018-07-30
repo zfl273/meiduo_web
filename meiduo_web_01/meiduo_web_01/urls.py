@@ -29,4 +29,7 @@ urlpatterns = [
 
     # Areas省市区
     url(r'^', include('areas.urls')),
+
+    #
+    # url(r'^', include('goods.urls'))
 ]

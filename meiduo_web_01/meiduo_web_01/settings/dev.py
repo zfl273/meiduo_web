@@ -75,6 +75,8 @@ INSTALLED_APPS = [
 
     'oauth.apps.OauthConfig',  # 第三方登录
     'areas.apps.AreasConfig',  # 省市区三级联动
+    'goods.apps.GoodsConfig',  # 商品
+    'contents.apps.ContentsConfig',  # 主页广告
 ]
 
 # 中间件，请求自上而下，返回自下而上。

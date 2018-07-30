@@ -175,7 +175,7 @@ STATIC_URL = '/static/'# 访问静态文件的URL前缀
 
 # 安装django-redis，配置， caches：<电脑>快速缓冲贮存区
 CACHES = {
-    "default": {
+    "default": {  # 缓存地址三级联动
         "BACKEND": "django_redis.cache.RedisCache",  # backend 后端; 后台; 后段; 编译器后端;
         "LOCATION": "redis://127.0.0.1:6379/0",  # 位置：redis://ip:port/0号数据库
         "OPTIONS": {
@@ -201,6 +201,13 @@ CACHES = {
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"  # session 引擎
 SESSION_CACHE_ALIAS = "session"  # alias:别名，化名;
 
+# DRF扩展
+REST_FRAMEWORK_EXTENSIONS = {
+    # 缓存时间
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60,
+    # 缓存存储
+    'DEFAULT_USE_CACHE': 'default',
+}
 
 # 日志配置
 LOGGING = {

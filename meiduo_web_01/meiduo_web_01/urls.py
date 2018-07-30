@@ -26,4 +26,7 @@ urlpatterns = [
 
     # 添加oauth的url
     url(r'^oauth/', include('oauth.urls')),
+
+    # Areas省市区
+    url(r'^', include('areas.urls')),
 ]

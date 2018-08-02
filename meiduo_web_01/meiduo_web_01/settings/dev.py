@@ -66,6 +66,8 @@ INSTALLED_APPS = [
     # 2 扩展应用
     'rest_framework',  # DRF
     'corsheaders',  # 解决js跨域请求的插件
+    'ckeditor',  # 富文本编辑器
+    'ckeditor_uploader',  # 富文本编辑器上传图片模块
 
     # 3 自己创建的应用
     # 为了还能像如下方式简便的注册引用，我们需要向Python解释器的导包路径中添加apps应用目录的路径
@@ -292,4 +294,20 @@ EMAIL_HOST_USER = 'zhfeilong2008@163.com' # 授权的邮箱 #发送邮件的邮�
 # 在邮箱中设置的客户端授权密码 非注册登录密码
 EMAIL_HOST_PASSWORD = 'woaini2017'
 # 收件人看到的发件人
-EMAIL_FROM = '飞龙商城<zhfeilong2008@163.com>'
+EMAIL_FROM = '行丰银拓办公商城<zhfeilong2008@163.com>'
+
+# fastDFS 配置
+FDFS_BASE_URL = 'http://192.168.243.132.:8888/'
+# FDFS_BASE_URL = 'http://127.0.0.1.:8888/'
+FDFS_CLIENT_CONF = os.path.join(BASE_DIR, 'utils/fastdfs/client.conf')
+# 修改django文件默认存储
+DEFAULT_FILE_STORAGE = 'meiduo_web_01.utils.fastdfs.fdfs_storage.FastDFSStorage'
+# 富文本编辑器ckeditor配置
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',  # 工具条功能
+        'height': 300,  # 编辑器高度
+        # 'width': 300,  # 编辑器宽
+    },
+}
+CKEDITOR_UPLOAD_PATH = ''  # 上传图片保存路径，使用了FastDFS，所以此处设为''

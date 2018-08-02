@@ -18,6 +18,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    # ckeditor路由
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     # 添加apps里的verifications
     url(r'^', include('verifications.urls')),
 
@@ -31,5 +33,7 @@ urlpatterns = [
     url(r'^', include('areas.urls')),
 
     #
-    # url(r'^', include('goods.urls'))
+    # url(r'^', include('goods.urls')),
+
+
 ]

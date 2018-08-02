@@ -59,7 +59,6 @@ class VerifyEmailView(APIView):
         #     return Response({'message': 'OK'})
 
 
-
 class EmailView(UpdateAPIView):
     '''添加邮箱 更新邮箱'''
     # 权限设置，需要登录客户才能返回数据
@@ -71,6 +70,7 @@ class EmailView(UpdateAPIView):
         '''这个方法中返回当前的登录用户的user信息,因为前端没有传入pk主
         键到视图中所以需要重写RetrieveAPIView的get_object()'''
         return self.request.user
+
 
 # 根据前端的token进行状态保持的个人中心 返回单一对象
 class UserDetailView(RetrieveAPIView):
@@ -85,6 +85,7 @@ class UserDetailView(RetrieveAPIView):
         '''这个方法中返回当前的登录用户的user信息,因为前端没有传入pk主
         键到视图中所以需要重写RetrieveAPIView的get_object()'''
         return self.request.user
+
 
 # 第五个接口注册的视图
 class UserView(CreateAPIView):
